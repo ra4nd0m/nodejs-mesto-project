@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
-import User from '../models/user';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+import User from '../models/user';
 import {
-  BAD_REQUEST, CONFLICT, handleError, MESSAGES, NOT_FOUND,
+  MESSAGES,
 } from '../utils/errorHandler';
-import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from '../errors';
+import {
+  BadRequestError, ConflictError, NotFoundError, UnauthorizedError,
+} from '../errors';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key';
 
@@ -17,9 +19,8 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
   } catch (err) {
     if (err instanceof mongoose.Error.CastError) {
       next(new BadRequestError(MESSAGES.invalidId));
-    } else {
-      return next(err);
     }
+    return next(err);
   }
 };
 
@@ -40,7 +41,9 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name, about, avatar, email, password } = req.body;
+    const {
+      name, about, avatar, email, password,
+    } = req.body;
 
     const hash = await bcrypt.hash(password, 10);
 

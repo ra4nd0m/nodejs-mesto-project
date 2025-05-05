@@ -1,3 +1,5 @@
+/* in proper projects, use index.ts with exports. In this one no need  */
+/* eslint-disable max-classes-per-file */
 export class HttpError extends Error {
   statusCode: number;
 

@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { UNAUTHORIZED, MESSAGES } from "../utils/errorHandler";
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { UNAUTHORIZED, MESSAGES } from '../utils/errorHandler';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key';
 
-export const auth = (req: Request, res: Response, next: NextFunction) => {
+const auth = (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.jwt;
 
   if (!token) {
@@ -18,4 +18,6 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
   } catch (err) {
     return res.status(UNAUTHORIZED).send({ message: MESSAGES.unauthorized });
   }
-}
+};
+
+export default auth;

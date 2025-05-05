@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import Card from '../models/card';
 import mongoose from 'mongoose';
+import Card from '../models/card';
 import {
   BadRequestError,
   NotFoundError,
-  ForbiddenError
+  ForbiddenError,
 } from '../errors';
 import { MESSAGES } from '../utils/errorHandler';
 

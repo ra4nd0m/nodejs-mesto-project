@@ -17,9 +17,9 @@ export const logRequest = (req: any) => {
     method,
     url,
     body: method === 'POST' || method === 'PATCH' ? body : undefined,
-  })
+  });
 
-  fs.appendFileSync(requestLogPath, logData + '\n');
+  fs.appendFileSync(requestLogPath, `${logData}\n`);
 };
 
 export const logError = (err: any, req: any) => {
@@ -36,5 +36,5 @@ export const logError = (err: any, req: any) => {
     },
   });
 
-  fs.appendFileSync(errorLogPath, logData + '\n');
-}
+  fs.appendFileSync(errorLogPath, `${logData}\n`);
+};

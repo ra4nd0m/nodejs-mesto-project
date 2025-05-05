@@ -1,14 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 import { CONFLICT, SERVER_ERROR, MESSAGES } from '../utils/errorHandler';
 import { HttpError } from '../errors';
-import mongoose from 'mongoose';
 
 interface CustomError extends Error {
   statusCode?: number;
   code?: number;
 }
 
-export const errorHandler = (err: CustomError, req: Request, res: Response, next: NextFunction) => {
+// eslint-disable-next-line no-unused-vars
+const errorHandler = (err: CustomError, req: Request, res: Response, next: NextFunction) => {
   if (err.code === 11000) {
     return res.status(CONFLICT).json({ message: MESSAGES.emailExists });
   }
@@ -24,5 +25,7 @@ export const errorHandler = (err: CustomError, req: Request, res: Response, next
   const statusCode = err.statusCode || SERVER_ERROR;
   const message = statusCode === SERVER_ERROR ? MESSAGES.serverError : err.message;
 
-  res.status(statusCode).json({ message });
+  return res.status(statusCode).json({ message });
 };
+
+export default errorHandler;

@@ -46,7 +46,7 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
     select: false,
-  }
+  },
 }, {
   versionKey: false,
 });

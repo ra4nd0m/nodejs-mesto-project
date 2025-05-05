@@ -1,13 +1,13 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import { celebrate, Joi, errors } from 'celebrate';
 import userRoutes from './routes/users';
 import cardsRouter from './routes/cards';
 import { createUser, login } from './controllers/users';
-import { auth } from './middleware/auth';
+import auth from './middleware/auth';
 import { errorLogger, requestLogger } from './middleware/logger';
-import { errorHandler } from './middleware/errorHandler';
+import errorHandler from './middleware/errorHandler';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
