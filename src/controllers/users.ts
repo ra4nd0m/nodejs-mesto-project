@@ -18,7 +18,7 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
     return res.status(200).json(users);
   } catch (err) {
     if (err instanceof mongoose.Error.CastError) {
-      next(new BadRequestError(MESSAGES.invalidId));
+      return next(new BadRequestError(MESSAGES.invalidId));
     }
     return next(err);
   }

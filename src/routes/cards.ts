@@ -7,17 +7,16 @@ import {
   likeCard,
   dislikeCard,
 } from '../controllers/cards';
+import URL_PATTERN from '../const/constants';
 
 const cardsRouter = express.Router();
-
-const urlPattern = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/i;
 
 cardsRouter.get('/', getCards);
 
 cardsRouter.post('/', celebrate({
   [Segments.BODY]: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    link: Joi.string().pattern(urlPattern).required(),
+    link: Joi.string().pattern(URL_PATTERN).required(),
   }),
 }), createCard);
 

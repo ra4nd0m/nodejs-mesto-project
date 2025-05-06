@@ -4,10 +4,9 @@ import {
   getUsers, getUserById, updateProfile, updateAvatar,
   getCurrentUser,
 } from '../controllers/users';
+import URL_PATTERN from '../const/constants';
 
 const userRoutes = express.Router();
-
-const urlPattern = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/i;
 
 userRoutes.get('/me', getCurrentUser);
 userRoutes.get('/', getUsers);
@@ -27,7 +26,7 @@ userRoutes.patch('/me', celebrate({
 
 userRoutes.patch('/me/avatar', celebrate({
   [Segments.BODY]: Joi.object().keys({
-    avatar: Joi.string().pattern(urlPattern).required(),
+    avatar: Joi.string().pattern(URL_PATTERN).required(),
   }),
 }), updateAvatar);
 

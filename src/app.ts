@@ -8,11 +8,11 @@ import { createUser, login } from './controllers/users';
 import auth from './middleware/auth';
 import { errorLogger, requestLogger } from './middleware/logger';
 import errorHandler from './middleware/errorHandler';
+import { NotFoundError } from './errors';
+import URL_PATTERN from './const/constants';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-const urlPattern = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/i;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -31,7 +31,7 @@ app.post('/signup', celebrate({
     password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(200),
-    avatar: Joi.string().pattern(urlPattern),
+    avatar: Joi.string().pattern(URL_PATTERN),
   }),
 }), createUser);
 
@@ -39,8 +39,8 @@ app.use(auth);
 app.use('/users', userRoutes);
 app.use('/cards', cardsRouter);
 
-app.use('*', (req, res) => {
-  res.status(404).send({ message: 'Not available' });
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Requested resource not found'));
 });
 
 app.use(errorLogger);
